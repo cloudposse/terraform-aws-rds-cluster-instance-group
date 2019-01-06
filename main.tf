@@ -64,6 +64,7 @@ resource "aws_rds_cluster_instance" "default" {
   db_subnet_group_name    = "${aws_db_subnet_group.default.name}"
   db_parameter_group_name = "${aws_db_parameter_group.default.name}"
   publicly_accessible     = "${var.publicly_accessible}"
+  promotion_tier          = "${var.promotion_tier}"
   tags                    = "${module.label.tags}"
   monitoring_interval     = "${var.rds_monitoring_interval}"
   monitoring_role_arn     = "${var.rds_monitoring_role_arn}"

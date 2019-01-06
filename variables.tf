@@ -121,6 +121,11 @@ variable "apply_immediately" {
   default     = "true"
 }
 
+variable "promotion_tier" {
+  description = "Failover Priority setting on instance level. The reader who has lower tier has higher priority to get promoter to writer."
+  default     = "1000"
+}
+
 variable "rds_monitoring_interval" {
   description = "Interval in seconds that metrics are collected, 0 to disable (values can only be 0, 1, 5, 10, 15, 30, 60)"
   default     = "0"
