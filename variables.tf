@@ -50,6 +50,7 @@ variable "cluster_size" {
 variable "db_subnet_group_name" {
   type        = "string"
   description = "A DB subnet group to associate with this DB instance. NOTE: This must match the db_subnet_group_name of the attached aws_rds_cluster."
+  default     = ""
 }
 
 variable "db_port" {
