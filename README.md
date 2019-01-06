@@ -53,17 +53,19 @@ We literally have [*hundreds of terraform modules*][terraform_modules] that are 
 
 ```hcl
 module "rds_cluster_replicas" {
-  source          = "git::https://github.com/cloudposse/terraform-aws-rds-cluster-instance-group.git?ref=master"
-  name            = "postgres"
-  namespace       = "eg"
-  stage           = "dev"
-  cluster_size    = "2"
-  db_port         = "5432"
-  instance_type   = "db.r4.large"
-  vpc_id          = "vpc-xxxxxxxx"
-  security_groups = ["sg-xxxxxxxx"]
-  subnets         = ["subnet-xxxxxxxx", "subnet-xxxxxxxx"]
-  zone_id         = "Zxxxxxxxx"
+  source             = "git::https://github.com/cloudposse/terraform-aws-rds-cluster-instance-group.git?ref=master"
+  name               = "postgres"
+  namespace          = "eg"
+  stage              = "dev"
+  attributes         = ["replicas"]
+  cluster_identifier = "eg-dev-db"
+  cluster_size       = "2"
+  db_port            = "5432"
+  instance_type      = "db.r4.large"
+  vpc_id             = "vpc-xxxxxxxx"
+  security_groups    = ["sg-xxxxxxxx"]
+  subnets            = ["subnet-xxxxxxxx", "subnet-xxxxxxxx"]
+  zone_id            = "Zxxxxxxxx"
 }
 ```
 
@@ -71,16 +73,18 @@ module "rds_cluster_replicas" {
 
 ```hcl
 module "rds_cluster_reporting" {
-  source          = "git::https://github.com/cloudposse/terraform-aws-rds-cluster-instance-group.git?ref=master"
-  cluster_size    = "2"
-  namespace       = "eg"
-  stage           = "dev"
-  name            = "db"
-  instance_type   = "db.t2.small"
-  vpc_id          = "vpc-xxxxxxx"
-  security_groups = ["sg-xxxxxxxx"]
-  subnets         = ["subnet-xxxxxxxx", "subnet-xxxxxxxx"]
-  zone_id         = "Zxxxxxxxx"
+  source             = "git::https://github.com/cloudposse/terraform-aws-rds-cluster-instance-group.git?ref=master"
+  cluster_size       = "2"
+  namespace          = "eg"
+  stage              = "dev"
+  name               = "db"
+  attributes         = ["reporting"]
+  cluster_identifier = "eg-dev-db"
+  instance_type      = "db.t2.small"
+  vpc_id             = "vpc-xxxxxxx"
+  security_groups    = ["sg-xxxxxxxx"]
+  subnets            = ["subnet-xxxxxxxx", "subnet-xxxxxxxx"]
+  zone_id            = "Zxxxxxxxx"
 
   cluster_parameters = [
     {
@@ -157,18 +161,19 @@ data "aws_iam_policy_document" "enhanced_monitoring" {
 }
 
 module "rds_cluster_reporting" {
-  source          = "git::https://github.com/cloudposse/terraform-aws-rds-cluster-instance-group.git?ref=master"
-  cluster_size    = "2"
-  namespace       = "eg"
-  stage           = "dev"
-  name            = "db"
-  attributes      = ["reporting"]
-  db_port         = "5432"
-  instance_type   = "db.r4.large"
-  vpc_id          = "vpc-xxxxxxx"
-  security_groups = ["sg-xxxxxxxx"]
-  subnets         = ["subnet-xxxxxxxx", "subnet-xxxxxxxx"]
-  zone_id         = "Zxxxxxxxx"
+  source             = "git::https://github.com/cloudposse/terraform-aws-rds-cluster-instance-group.git?ref=master"
+  cluster_size       = "2"
+  namespace          = "eg"
+  stage              = "dev"
+  name               = "db"
+  attributes         = ["reporting"]
+  cluster_identifier = "eg-dev-db"
+  db_port            = "5432"
+  instance_type      = "db.r4.large"
+  vpc_id             = "vpc-xxxxxxx"
+  security_groups    = ["sg-xxxxxxxx"]
+  subnets            = ["subnet-xxxxxxxx", "subnet-xxxxxxxx"]
+  zone_id            = "Zxxxxxxxx"
 
   # enable monitoring every 30 seconds
   rds_monitoring_interval = "30"
