@@ -52,17 +52,12 @@ We literally have [*hundreds of terraform modules*][terraform_modules] that are 
 [Basic example](examples/basic)
 
 ```hcl
-module "rds_cluster_aurora_postgres" {
+module "rds_cluster_replicas" {
   source          = "git::https://github.com/cloudposse/terraform-aws-rds-cluster-instance-group.git?ref=master"
   name            = "postgres"
-  engine          = "aurora-postgresql"
-  cluster_family  = "aurora-postgresql9.6"
-  cluster_size    = "2"
   namespace       = "eg"
   stage           = "dev"
-  admin_user      = "admin1"
-  admin_password  = "Test123456789"
-  db_name         = "dbname"
+  cluster_size    = "2"
   db_port         = "5432"
   instance_type   = "db.r4.large"
   vpc_id          = "vpc-xxxxxxxx"
@@ -72,99 +67,20 @@ module "rds_cluster_aurora_postgres" {
 }
 ```
 
-[Serverless MySQL](examples/serverless_mysql)
-
-```hcl
-module "rds_cluster_aurora_mysql_serverless" {
-  source          = "git::https://github.com/cloudposse/terraform-aws-rds-cluster-instance-group.git?ref=master"
-  namespace       = "eg"
-  stage           = "dev"
-  name            = "db"
-  engine          = "aurora"
-  engine_mode     = "serverless"
-  cluster_family  = "aurora5.6"
-  cluster_size    = "0"
-  admin_user      = "admin1"
-  admin_password  = "Test123456789"
-  db_name         = "dbname"
-  db_port         = "3306"
-  instance_type   = "db.t2.small"
-  vpc_id          = "vpc-xxxxxxxx"
-  security_groups = ["sg-xxxxxxxx"]
-  subnets         = ["subnet-xxxxxxxx", "subnet-xxxxxxxx"]
-  zone_id         = "Zxxxxxxxx"
-
-  scaling_configuration = [
-    {
-      auto_pause               = true
-      max_capacity             = 256
-      min_capacity             = 2
-      seconds_until_auto_pause = 300
-    },
-  ]
-}
-```
-
 [With cluster parameters](examples/with_cluster_parameters)
 
 ```hcl
-module "rds_cluster_aurora_mysql" {
+module "rds_cluster_reporting" {
   source          = "git::https://github.com/cloudposse/terraform-aws-rds-cluster-instance-group.git?ref=master"
-  engine          = "aurora"
-  cluster_family  = "aurora-mysql5.7"
   cluster_size    = "2"
   namespace       = "eg"
   stage           = "dev"
   name            = "db"
-  admin_user      = "admin1"
-  admin_password  = "Test123456789"
-  db_name         = "dbname"
   instance_type   = "db.t2.small"
   vpc_id          = "vpc-xxxxxxx"
   security_groups = ["sg-xxxxxxxx"]
   subnets         = ["subnet-xxxxxxxx", "subnet-xxxxxxxx"]
   zone_id         = "Zxxxxxxxx"
-
-  cluster_parameters = [
-    {
-      name  = "character_set_client"
-      value = "utf8"
-    },
-    {
-      name  = "character_set_connection"
-      value = "utf8"
-    },
-    {
-      name  = "character_set_database"
-      value = "utf8"
-    },
-    {
-      name  = "character_set_results"
-      value = "utf8"
-    },
-    {
-      name  = "character_set_server"
-      value = "utf8"
-    },
-    {
-      name  = "collation_connection"
-      value = "uft8_bin"
-    },
-    {
-      name  = "collation_server"
-      value = "uft8_bin"
-    },
-    {
-      name         = "lower_case_table_names"
-      value        = "1"
-      apply_method = "pending-reboot"
-    },
-    {
-      name         = "skip-character-set-client-handshake"
-      value        = "1"
-      apply_method = "pending-reboot"
-    },
-  ]
 }
 ```
 
@@ -199,17 +115,13 @@ data "aws_iam_policy_document" "enhanced_monitoring" {
   }
 }
 
-module "rds_cluster_aurora_postgres" {
+module "rds_cluster_reporting" {
   source          = "git::https://github.com/cloudposse/terraform-aws-rds-cluster-instance-group.git?ref=master"
-  engine          = "aurora-postgresql"
-  cluster_family  = "aurora-postgresql9.6"
   cluster_size    = "2"
   namespace       = "eg"
   stage           = "dev"
   name            = "db"
-  admin_user      = "admin1"
-  admin_password  = "Test123456789"
-  db_name         = "dbname"
+  attributes      = ["reporting"]
   db_port         = "5432"
   instance_type   = "db.r4.large"
   vpc_id          = "vpc-xxxxxxx"
