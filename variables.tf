@@ -100,6 +100,12 @@ variable "enabled" {
   default     = "true"
 }
 
+variable "engine" {
+  type        = "string"
+  default     = "aurora"
+  description = "The name of the database engine to be used for this DB cluster. Valid values: `aurora`, `aurora-mysql`, `aurora-postgresql`"
+}
+
 variable "cluster_family" {
   type        = "string"
   default     = "aurora5.6"

@@ -13,11 +13,12 @@
 | db_port | Database port | string | `3306` | no |
 | delimiter | Delimiter to be used between `name`, `namespace`, `stage` and `attributes` | string | `-` | no |
 | enabled | Set to false to prevent the module from creating any resources | string | `true` | no |
+| engine | The name of the database engine to be used for this DB cluster. Valid values: `aurora`, `aurora-mysql`, `aurora-postgresql` | string | `aurora` | no |
 | instance_parameters | List of DB instance parameters to apply | list | `<list>` | no |
 | instance_type | Instance type to use | string | `db.t2.small` | no |
 | name | Name of the application | string | - | yes |
 | namespace | Namespace (e.g. `eg` or `cp`) | string | - | yes |
-| promotion_tier | Failover Priority setting on instance level. The reader who has lower tier has higher priority to get promoter to writer. | string | `1000` | no |
+| promotion_tier | Failover Priority setting on instance level. The reader who has lower tier has higher priority to get promoter to writer (values can range from 0-15). | string | `15` | no |
 | publicly_accessible | Set to true if you want your cluster to be publicly accessible (such as via QuickSight) | string | `false` | no |
 | rds_monitoring_interval | Interval in seconds that metrics are collected, 0 to disable (values can only be 0, 1, 5, 10, 15, 30, 60) | string | `0` | no |
 | rds_monitoring_role_arn | The ARN for the IAM role that can send monitoring metrics to CloudWatch Logs | string | `` | no |

@@ -60,6 +60,7 @@ resource "aws_rds_cluster_instance" "default" {
   count                   = "${local.enabled ? var.cluster_size : 0}"
   identifier              = "${module.label.id}-${count.index+1}"
   cluster_identifier      = "${var.cluster_identifier}"
+  engine                  = "${var.engine}"
   instance_class          = "${var.instance_type}"
   db_subnet_group_name    = "${aws_db_subnet_group.default.name}"
   db_parameter_group_name = "${aws_db_parameter_group.default.name}"
