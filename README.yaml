@@ -103,6 +103,47 @@ usage: |-
     security_groups = ["sg-xxxxxxxx"]
     subnets         = ["subnet-xxxxxxxx", "subnet-xxxxxxxx"]
     zone_id         = "Zxxxxxxxx"
+
+    cluster_parameters = [
+      {
+        name  = "character_set_client"
+        value = "utf8"
+      },
+      {
+        name  = "character_set_connection"
+        value = "utf8"
+      },
+      {
+        name  = "character_set_database"
+        value = "utf8"
+      },
+      {
+        name  = "character_set_results"
+        value = "utf8"
+      },
+      {
+        name  = "character_set_server"
+        value = "utf8"
+      },
+      {
+        name  = "collation_connection"
+        value = "uft8_bin"
+      },
+      {
+        name  = "collation_server"
+        value = "uft8_bin"
+      },
+      {
+        name         = "lower_case_table_names"
+        value        = "1"
+        apply_method = "pending-reboot"
+      },
+      {
+        name         = "skip-character-set-client-handshake"
+        value        = "1"
+        apply_method = "pending-reboot"
+      },
+    ]
   }
   ```
 
