@@ -30,7 +30,7 @@ data "aws_rds_cluster" "default" {
 locals {
   security_group_id    = "${join("", aws_security_group.default.*.id)}"
   db_subnet_group_name = "${length(var.db_subnet_group_name) > 0 ? var.db_subnet_group_name : var.cluster_identifier}"
-  engine               = "${local.enabled && length(var.engine) == 0 ? join("", data.aws_rds.cluster.default.*.engine) : var.engine}"
+  engine               = "${local.enabled && length(var.engine) == 0 ? join("", data.aws_rds_cluster.default.*.engine) : var.engine}"
 }
 
 resource "aws_security_group_rule" "allow_ingress" {
