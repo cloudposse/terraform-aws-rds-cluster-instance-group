@@ -22,8 +22,15 @@ resource "aws_security_group" "default" {
   tags = "${module.label.tags}"
 }
 
+data "aws_rds_cluster" "default" {
+  count              = "${local.enabled && length(var.engine) == 0 ? 1 : 0}"
+  cluster_identifier = "${var.cluster_identifier}"
+}
+
 locals {
-  security_group_id = "${join("", aws_security_group.default.*.id)}"
+  security_group_id    = "${join("", aws_security_group.default.*.id)}"
+  db_subnet_group_name = "${length(var.db_subnet_group_name) > 0 ? var.db_subnet_group_name : var.cluster_identifier}"
+  engine               = "${local.enabled && length(var.engine) == 0 ? join("", data.aws_rds.cluster.default.*.engine) : var.engine}"
 }
 
 resource "aws_security_group_rule" "allow_ingress" {
@@ -60,9 +67,9 @@ resource "aws_rds_cluster_instance" "default" {
   count                   = "${local.enabled ? var.cluster_size : 0}"
   identifier              = "${module.label.id}-${count.index+1}"
   cluster_identifier      = "${var.cluster_identifier}"
-  engine                  = "${var.engine}"
+  engine                  = "${local.engine}"
   instance_class          = "${var.instance_type}"
-  db_subnet_group_name    = "${var.db_subnet_group_name}"
+  db_subnet_group_name    = "${local.db_subnet_group_name}"
   db_parameter_group_name = "${aws_db_parameter_group.default.name}"
   publicly_accessible     = "${var.publicly_accessible}"
   promotion_tier          = "${var.promotion_tier}"
