@@ -89,6 +89,12 @@ variable "allowed_cidr_blocks" {
   description = "List of CIDR blocks allowed to access"
 }
 
+variable "security_group_ids" {
+  type        = "list"
+  default     = []
+  description = "The IDs of the security groups from which to allow `ingress` traffic to the DB instance"
+}
+
 variable "enabled" {
   description = "Set to false to prevent the module from creating any resources"
   default     = "true"
@@ -118,4 +124,21 @@ variable "rds_monitoring_role_arn" {
   type        = "string"
   default     = ""
   description = "The ARN for the IAM role that can send monitoring metrics to CloudWatch Logs"
+}
+
+variable "cluster_identifier" {
+  type        = "string"
+  description = "The cluster identifier"
+}
+
+variable "cluster_endpoint_identifier" {
+  type        = "string"
+  description = "The identifier to use for the new endpoint. This parameter is stored as a lowercase string"
+  default     = "reader"
+}
+
+variable "custom_endpoint_type" {
+  type        = "string"
+  description = " The type of the endpoint. One of: READER, ANY."
+  default     = "READER"
 }

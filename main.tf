@@ -59,7 +59,7 @@ resource "aws_security_group_rule" "allow_egress" {
 resource "aws_rds_cluster_instance" "default" {
   count                   = "${local.enabled ? var.cluster_size : 0}"
   identifier              = "${module.label.id}-${count.index+1}"
-  cluster_identifier      = "${aws_rds_cluster.default.id}"
+  cluster_identifier      = "${var.cluster_identifier}"
   instance_class          = "${var.instance_type}"
   db_subnet_group_name    = "${aws_db_subnet_group.default.name}"
   db_parameter_group_name = "${aws_db_parameter_group.default.name}"
@@ -97,11 +97,10 @@ resource "aws_db_parameter_group" "default" {
 
 resource "aws_rds_cluster_endpoint" "default" {
   count                       = "${local.enabled ? 1 : 0}"
-  cluster_identifier          = "${aws_rds_cluster.default.id}"
-  cluster_endpoint_identifier = "reader"
-  custom_endpoint_type        = "READER"
-
-  static_members = "${aws_rds_cluster_instance.default.*.id}"
+  cluster_identifier          = "${var.cluster_identifier}"
+  cluster_endpoint_identifier = "${var.cluster_endpoint_identifier}"
+  custom_endpoint_type        = "${var.custom_endpoint_type}"
+  static_members              = "${aws_rds_cluster_instance.default.*.id}"
 }
 
 module "dns_replicas" {
