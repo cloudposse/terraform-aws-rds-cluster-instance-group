@@ -62,7 +62,7 @@ resource "aws_rds_cluster_instance" "default" {
   cluster_identifier      = "${var.cluster_identifier}"
   engine                  = "${var.engine}"
   instance_class          = "${var.instance_type}"
-  db_subnet_group_name    = "${aws_db_subnet_group.default.name}"
+  db_subnet_group_name    = "${var.db_subnet_group_name}"
   db_parameter_group_name = "${aws_db_parameter_group.default.name}"
   publicly_accessible     = "${var.publicly_accessible}"
   promotion_tier          = "${var.promotion_tier}"
