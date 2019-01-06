@@ -159,8 +159,11 @@ Available targets:
 | allowed_cidr_blocks | List of CIDR blocks allowed to access | list | `<list>` | no |
 | apply_immediately | Specifies whether any cluster modifications are applied immediately, or during the next maintenance window | string | `true` | no |
 | attributes | Additional attributes (e.g. `1`) | list | `<list>` | no |
+| cluster_family | The family of the DB cluster parameter group | string | `aurora5.6` | no |
+| cluster_identifier | The cluster identifier | string | - | yes |
 | cluster_parameters | List of DB parameters to apply | list | `<list>` | no |
 | cluster_size | Number of DB instances to create in the cluster | string | `2` | no |
+| custom_endpoint_type | The type of the endpoint. One of: READER, ANY. | string | `READER` | no |
 | db_port | Database port | string | `3306` | no |
 | delimiter | Delimiter to be used between `name`, `namespace`, `stage` and `attributes` | string | `-` | no |
 | enabled | Set to false to prevent the module from creating any resources | string | `true` | no |
@@ -171,6 +174,7 @@ Available targets:
 | publicly_accessible | Set to true if you want your cluster to be publicly accessible (such as via QuickSight) | string | `false` | no |
 | rds_monitoring_interval | Interval in seconds that metrics are collected, 0 to disable (values can only be 0, 1, 5, 10, 15, 30, 60) | string | `0` | no |
 | rds_monitoring_role_arn | The ARN for the IAM role that can send monitoring metrics to CloudWatch Logs | string | `` | no |
+| security_group_ids | The IDs of the security groups from which to allow `ingress` traffic to the DB instance | list | `<list>` | no |
 | security_groups | List of security groups to be allowed to connect to the DB instance | list | `<list>` | no |
 | stage | Stage (e.g. `prod`, `dev`, `staging`) | string | - | yes |
 | storage_encrypted | Specifies whether the DB cluster is encrypted. The default is `false` for `provisioned` `engine_mode` and `true` for `serverless` `engine_mode` | string | `true` | no |
@@ -183,15 +187,8 @@ Available targets:
 
 | Name | Description |
 |------|-------------|
-| arn | Amazon Resource Name (ARN) of cluster |
-| cluster_name | Cluster Identifier |
-| endpoint | The DNS address of the RDS instance |
-| master_host | DB Master hostname |
-| name | Database name |
-| password | Password for the master DB user |
-| reader_endpoint | A read-only endpoint for the Aurora cluster, automatically load-balanced across replicas |
-| replicas_host | Replicas hostname |
-| user | Username for the master DB user |
+| endpoint | The endpoint for the Aurora cluster, automatically load-balanced across replicas |
+| hostname | The DNS address for this endpoint |
 
 
 

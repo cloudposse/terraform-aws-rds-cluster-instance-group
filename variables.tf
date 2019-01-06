@@ -100,6 +100,12 @@ variable "enabled" {
   default     = "true"
 }
 
+variable "cluster_family" {
+  type        = "string"
+  default     = "aurora5.6"
+  description = "The family of the DB cluster parameter group"
+}
+
 variable "publicly_accessible" {
   description = "Set to true if you want your cluster to be publicly accessible (such as via QuickSight)"
   default     = "false"
@@ -129,12 +135,6 @@ variable "rds_monitoring_role_arn" {
 variable "cluster_identifier" {
   type        = "string"
   description = "The cluster identifier"
-}
-
-variable "cluster_endpoint_identifier" {
-  type        = "string"
-  description = "The identifier to use for the new endpoint. This parameter is stored as a lowercase string"
-  default     = "reader"
 }
 
 variable "custom_endpoint_type" {

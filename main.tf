@@ -98,12 +98,12 @@ resource "aws_db_parameter_group" "default" {
 resource "aws_rds_cluster_endpoint" "default" {
   count                       = "${local.enabled ? 1 : 0}"
   cluster_identifier          = "${var.cluster_identifier}"
-  cluster_endpoint_identifier = "${var.cluster_endpoint_identifier}"
+  cluster_endpoint_identifier = "${module.label.id}"
   custom_endpoint_type        = "${var.custom_endpoint_type}"
   static_members              = "${aws_rds_cluster_instance.default.*.id}"
 }
 
-module "dns_replicas" {
+module "dns" {
   source    = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-hostname.git?ref=tags/0.2.5"
   enabled   = "${var.enabled == "true" && length(var.zone_id) > 0 ? "true" : "false"}"
   namespace = "${var.namespace}"
