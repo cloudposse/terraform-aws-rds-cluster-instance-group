@@ -5,7 +5,7 @@
 
 # terraform-aws-rds-cluster-instance-group
 
- [![Build Status](https://travis-ci.org/cloudposse/terraform-aws-rds-cluster-instance-group.svg?branch=master)](https://travis-ci.org/cloudposse/terraform-aws-rds-cluster) [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-aws-rds-cluster-instance-group.svg)](https://github.com/cloudposse/terraform-aws-rds-cluster/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com)
+ [![Build Status](https://travis-ci.org/cloudposse/terraform-aws-rds-cluster-instance-group.svg?branch=master)](https://travis-ci.org/cloudposse/terraform-aws-rds-cluster-instance-group) [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-aws-rds-cluster-instance-group.svg)](https://github.com/cloudposse/terraform-aws-rds-cluster-instance-group/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com)
 
 
 Terraform module to provision an [`RDS Aurora`](https://aws.amazon.com/rds/aurora) instance group for MySQL or Postgres along with a dedicated endpoint.

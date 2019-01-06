@@ -38,10 +38,10 @@ github_repo: cloudposse/terraform-aws-rds-cluster-instance-group
 badges:
   - name: "Build Status"
     image: "https://travis-ci.org/cloudposse/terraform-aws-rds-cluster-instance-group.svg?branch=master"
-    url: "https://travis-ci.org/cloudposse/terraform-aws-rds-cluster"
+    url: "https://travis-ci.org/cloudposse/terraform-aws-rds-cluster-instance-group"
   - name: "Latest Release"
     image: "https://img.shields.io/github/release/cloudposse/terraform-aws-rds-cluster-instance-group.svg"
-    url: "https://github.com/cloudposse/terraform-aws-rds-cluster/releases/latest"
+    url: "https://github.com/cloudposse/terraform-aws-rds-cluster-instance-group/releases/latest"
   - name: "Slack Community"
     image: "https://slack.cloudposse.com/badge.svg"
     url: "https://slack.cloudposse.com"
