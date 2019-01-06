@@ -101,7 +101,7 @@ resource "aws_rds_cluster_endpoint" "default" {
   cluster_identifier          = "${var.cluster_identifier}"
   cluster_endpoint_identifier = "${module.label.id}"
   custom_endpoint_type        = "${var.custom_endpoint_type}"
-  static_members              = "${aws_rds_cluster_instance.default.*.id}"
+  static_members              = ["${aws_rds_cluster_instance.default.*.id}"]
 }
 
 module "dns" {
