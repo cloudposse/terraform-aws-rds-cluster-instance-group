@@ -122,8 +122,8 @@ variable "apply_immediately" {
 }
 
 variable "promotion_tier" {
-  description = "Failover Priority setting on instance level. The reader who has lower tier has higher priority to get promoter to writer."
-  default     = "1000"
+  description = "Failover Priority setting on instance level. The reader who has lower tier has higher priority to get promoter to writer (values can range from 0-15)."
+  default     = "15"
 }
 
 variable "rds_monitoring_interval" {
