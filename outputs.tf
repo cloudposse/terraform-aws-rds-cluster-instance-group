@@ -1,6 +1,6 @@
 output "hostname" {
   value       = "${module.dns.hostname}"
-  description = "The DNS address for this endpoint"
+  description = "The DNS address for the endpoint of the Aurora cluster"
 }
 
 output "endpoint" {
