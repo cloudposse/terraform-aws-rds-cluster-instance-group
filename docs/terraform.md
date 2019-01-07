@@ -7,7 +7,6 @@
 | attributes | Additional attributes (e.g. `1`) | list | `<list>` | no |
 | cluster_family | The family of the DB cluster parameter group | string | `aurora5.6` | no |
 | cluster_identifier | The cluster identifier | string | - | yes |
-| cluster_parameters | List of DB parameters to apply | list | `<list>` | no |
 | cluster_size | Number of DB instances to create in the cluster | string | `2` | no |
 | custom_endpoint_type | The type of the endpoint. One of: READER, ANY | string | `READER` | no |
 | db_port | Database port | string | `3306` | no |
