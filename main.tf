@@ -70,7 +70,7 @@ resource "aws_rds_cluster_instance" "default" {
   engine                  = "${local.engine}"
   instance_class          = "${var.instance_type}"
   db_subnet_group_name    = "${local.db_subnet_group_name}"
-  db_parameter_group_name = "${aws_db_parameter_group.default.name}"
+  db_parameter_group_name = "${join("", aws_db_parameter_group.default.*.name)}"
   publicly_accessible     = "${var.publicly_accessible}"
   promotion_tier          = "${var.promotion_tier}"
   tags                    = "${module.label.tags}"
