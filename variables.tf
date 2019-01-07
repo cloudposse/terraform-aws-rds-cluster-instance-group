@@ -156,6 +156,6 @@ variable "cluster_identifier" {
 
 variable "custom_endpoint_type" {
   type        = "string"
-  description = " The type of the endpoint. One of: READER, ANY."
+  description = " The type of the endpoint. One of: READER, ANY"
   default     = "READER"
 }
