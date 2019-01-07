@@ -78,15 +78,6 @@ resource "aws_rds_cluster_instance" "default" {
   monitoring_role_arn     = "${var.rds_monitoring_role_arn}"
 }
 
-resource "aws_rds_cluster_parameter_group" "default" {
-  count       = "${local.enabled ? 1 : 0}"
-  name        = "${module.label.id}"
-  description = "DB cluster parameter group"
-  family      = "${var.cluster_family}"
-  parameter   = ["${var.cluster_parameters}"]
-  tags        = "${module.label.tags}"
-}
-
 resource "aws_db_parameter_group" "default" {
   count       = "${local.enabled ? 1 : 0}"
   name        = "${module.label.id}"
