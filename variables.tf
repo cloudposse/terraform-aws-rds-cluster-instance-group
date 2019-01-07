@@ -22,7 +22,7 @@ variable "zone_id" {
 variable "security_groups" {
   type        = "list"
   default     = []
-  description = "List of security groups to be allowed to connect to the DB instance"
+  description = "List of security groups to be allowed to connect to the DB instances"
 }
 
 variable "vpc_id" {
