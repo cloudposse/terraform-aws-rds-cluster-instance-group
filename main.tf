@@ -78,14 +78,6 @@ resource "aws_rds_cluster_instance" "default" {
   monitoring_role_arn     = "${var.rds_monitoring_role_arn}"
 }
 
-resource "aws_db_subnet_group" "default" {
-  count       = "${local.enabled ? 1 : 0}"
-  name        = "${module.label.id}"
-  description = "Allowed subnets for DB cluster instances"
-  subnet_ids  = ["${var.subnets}"]
-  tags        = "${module.label.tags}"
-}
-
 resource "aws_rds_cluster_parameter_group" "default" {
   count       = "${local.enabled ? 1 : 0}"
   name        = "${module.label.id}"
