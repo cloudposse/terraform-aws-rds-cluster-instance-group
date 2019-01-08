@@ -1,0 +1,226 @@
+---
+#
+# This is the canonical configuration for the `README.md`
+# Run `make readme` to rebuild the `README.md`
+#
+
+# Name of this project
+name: terraform-aws-rds-cluster-instance-group
+
+# Tags of this project
+tags:
+  - aws
+  - terraform
+  - terraform-modules
+  - databases
+  - rds
+  - rds-database
+  - rds-cluster
+  - rds-instance
+  - aurora
+  - mysql
+  - cluster
+
+# Categories of this project
+categories:
+  - terraform-modules/databases
+
+# Logo for this project
+#logo: docs/logo.png
+
+# License of this project
+license: "APACHE2"
+
+# Canonical GitHub repo
+github_repo: cloudposse/terraform-aws-rds-cluster-instance-group
+
+# Badges to display
+badges:
+  - name: "Build Status"
+    image: "https://travis-ci.org/cloudposse/terraform-aws-rds-cluster-instance-group.svg?branch=master"
+    url: "https://travis-ci.org/cloudposse/terraform-aws-rds-cluster-instance-group"
+  - name: "Latest Release"
+    image: "https://img.shields.io/github/release/cloudposse/terraform-aws-rds-cluster-instance-group.svg"
+    url: "https://github.com/cloudposse/terraform-aws-rds-cluster-instance-group/releases/latest"
+  - name: "Slack Community"
+    image: "https://slack.cloudposse.com/badge.svg"
+    url: "https://slack.cloudposse.com"
+
+related:
+  - name: "terraform-aws-rds"
+    description: "Terraform module to provision AWS RDS instances"
+    url: "https://github.com/cloudposse/terraform-aws-rds"
+  - name: "terraform-aws-rds-replica"
+    description: "Terraform module to provision AWS RDS replica instances"
+    url: "https://github.com/cloudposse/terraform-aws-rds-replica"
+  - name: "terraform-aws-rds-cluster"
+    description: "Terraform module to provision an RDS Aurora cluster for MySQL or Postgres"
+    url: "https://github.com/cloudposse/terraform-aws-rds-cluster"
+  - name: "terraform-aws-rds-cloudwatch-sns-alarms"
+    description: "Terraform module that configures important RDS alerts using CloudWatch and sends them to an SNS topic"
+    url: "https://github.com/cloudposse/terraform-aws-rds-cloudwatch-sns-alarms"
+
+# Short description of this project
+description: |-
+  Terraform module to provision an [`RDS Aurora`](https://aws.amazon.com/rds/aurora) instance group for MySQL or Postgres along with a dedicated endpoint.
+
+  Use this module together with our [`terraform-aws-rds-cluster`](https://github.com/cloudposse/terraform-aws-rds-cluster) to provision pools of RDS instances.  This is useful for creating reporting clusters that don't impact the production databases.
+
+  Supports [Amazon Aurora Serverless](https://aws.amazon.com/rds/aurora/serverless/).
+
+# How to use this project
+usage: |-
+
+  [Basic example](examples/basic)
+
+  ```hcl
+  module "rds_cluster_replicas" {
+    source             = "git::https://github.com/cloudposse/terraform-aws-rds-cluster-instance-group.git?ref=master"
+    name               = "postgres"
+    namespace          = "eg"
+    stage              = "dev"
+    attributes         = ["replicas"]
+    cluster_identifier = "eg-dev-db"
+    cluster_size       = "2"
+    db_port            = "5432"
+    instance_type      = "db.r4.large"
+    vpc_id             = "vpc-xxxxxxxx"
+    security_groups    = ["sg-xxxxxxxx"]
+    subnets            = ["subnet-xxxxxxxx", "subnet-xxxxxxxx"]
+    zone_id            = "Zxxxxxxxx"
+  }
+  ```
+
+  [With cluster parameters](examples/with_cluster_parameters)
+
+  ```hcl
+  module "rds_cluster_reporting" {
+    source             = "git::https://github.com/cloudposse/terraform-aws-rds-cluster-instance-group.git?ref=master"
+    cluster_size       = "2"
+    namespace          = "eg"
+    stage              = "dev"
+    name               = "db"
+    attributes         = ["reporting"]
+    cluster_identifier = "eg-dev-db"
+    instance_type      = "db.t2.small"
+    vpc_id             = "vpc-xxxxxxx"
+    security_groups    = ["sg-xxxxxxxx"]
+    subnets            = ["subnet-xxxxxxxx", "subnet-xxxxxxxx"]
+    zone_id            = "Zxxxxxxxx"
+
+    cluster_parameters = [
+      {
+        name  = "character_set_client"
+        value = "utf8"
+      },
+      {
+        name  = "character_set_connection"
+        value = "utf8"
+      },
+      {
+        name  = "character_set_database"
+        value = "utf8"
+      },
+      {
+        name  = "character_set_results"
+        value = "utf8"
+      },
+      {
+        name  = "character_set_server"
+        value = "utf8"
+      },
+      {
+        name  = "collation_connection"
+        value = "uft8_bin"
+      },
+      {
+        name  = "collation_server"
+        value = "uft8_bin"
+      },
+      {
+        name         = "lower_case_table_names"
+        value        = "1"
+        apply_method = "pending-reboot"
+      },
+      {
+        name         = "skip-character-set-client-handshake"
+        value        = "1"
+        apply_method = "pending-reboot"
+      },
+    ]
+  }
+  ```
+
+  [With enhanced monitoring](examples/enhanced_monitoring)
+
+  ```hcl
+  # create IAM role for monitoring
+  resource "aws_iam_role" "enhanced_monitoring" {
+    name               = "rds-cluster-example-1"
+    assume_role_policy = "${data.aws_iam_policy_document.enhanced_monitoring.json}"
+  }
+
+  # Attach Amazon's managed policy for RDS enhanced monitoring
+  resource "aws_iam_role_policy_attachment" "enhanced_monitoring" {
+    role       = "${aws_iam_role.enhanced_monitoring.name}"
+    policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
+  }
+
+  # allow rds to assume this role
+  data "aws_iam_policy_document" "enhanced_monitoring" {
+    statement {
+        actions = [
+        "sts:AssumeRole",
+      ]
+
+      effect = "Allow"
+
+      principals {
+        type        = "Service"
+        identifiers = ["monitoring.rds.amazonaws.com"]
+      }
+    }
+  }
+
+  module "rds_cluster_reporting" {
+    source             = "git::https://github.com/cloudposse/terraform-aws-rds-cluster-instance-group.git?ref=master"
+    cluster_size       = "2"
+    namespace          = "eg"
+    stage              = "dev"
+    name               = "db"
+    attributes         = ["reporting"]
+    cluster_identifier = "eg-dev-db"
+    db_port            = "5432"
+    instance_type      = "db.r4.large"
+    vpc_id             = "vpc-xxxxxxx"
+    security_groups    = ["sg-xxxxxxxx"]
+    subnets            = ["subnet-xxxxxxxx", "subnet-xxxxxxxx"]
+    zone_id            = "Zxxxxxxxx"
+
+    # enable monitoring every 30 seconds
+    rds_monitoring_interval = "30"
+
+    # reference iam role created above
+    rds_monitoring_role_arn = "${aws_iam_role.enhanced_monitoring.arn}"
+  }
+  ```
+
+# Example usage
+#examples: |-
+#  Example goes here...
+
+# How to get started quickly
+#quickstart: |-
+#  Here's how to get started...
+
+# Other files to include in this README from the project folder
+include:
+  - "docs/targets.md"
+  - "docs/terraform.md"
+
+# Contributors to this project
+contributors:
+  - name: "Erik Osterman"
+    github: "osterman"
+  - name: "Andriy Knysh"
+    github: "aknysh"
