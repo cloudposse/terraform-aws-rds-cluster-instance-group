@@ -5,3 +5,4 @@ repository:
   description: Terraform module to provision an RDS cluster instance pool with a dedicated endpoint
   homepage: https://cloudposse.com/accelerate
   topics: rds, cluster, instance-group, aws, terraform, terraform-module, reporting, replicas, slaves
+
